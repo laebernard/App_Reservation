@@ -1,5 +1,5 @@
 {% include 'service/index.html.twig' %}
-
+{% from 'macro.html.twig' import render_table %}
 
 {% block body %}
 <style>
@@ -9,10 +9,18 @@
 
 <div class="example-wrapper">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/appReservationTP/app_reservation_TP/src/Controller/ServiceController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/appReservationTP/app_reservation_TP/templates/service/index.html.twig</code></li>
-    </ul>
+    {% block content %}
+        <p> Pour une barbe soignée et élégante, faites confiance à nos barbiers expérimentés. Profitez d'une coupe de barbe minutieuse, d'un rasage de précision et de conseils sur-mesure pour un style qui vous ressemble et qui fait toute la différence. </p>
+        <div class="button">
+            <a href="{{ path('create_booking') }}">
+            <button type="submit">Réservé</button>
+            </a>
+        </div>
+
+        {{render_table(bookings)}}
+    
+    {% endblock %}
+
+     
 </div>
 {% endblock %}

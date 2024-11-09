@@ -34,11 +34,10 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $em->persist($user);
+            $em->flush();
 
-            return $this->redirectToRoute('app_user');
+            return $this->redirectToRoute('app_home');
         }
         return $this->render('user/create.html.twig', [
             'form' => $form->createView(),

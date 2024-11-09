@@ -1,5 +1,5 @@
 {% include 'service/index.html.twig' %}
-
+{% from 'macro.html.twig' import render_table %}
 
 {% block body %}
 <style>
@@ -9,10 +9,16 @@
 
 <div class="example-wrapper">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/appReservationTP/app_reservation_TP/src/Controller/ServiceController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/appReservationTP/app_reservation_TP/templates/service/index.html.twig</code></li>
-    </ul>
+    {% block content %}
+        <p> Relâchez toutes vos tensions et plongez dans un état de relaxation profonde avec nos massages professionnels. Chaque geste est pensé pour apaiser le corps et l'esprit, vous laissant revitalisé(e) et serein(e).</p>
+        <div class="button">
+            <a href="{{ path('create_booking') }}">
+            <button type="submit">Réservé</button>
+            </a>
+        </div>
+
+        {{render_table(bookings)}}
+    
+    {% endblock %}
 </div>
 {% endblock %}
