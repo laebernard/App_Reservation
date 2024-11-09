@@ -16,6 +16,15 @@ class BookingRepository extends ServiceEntityRepository
         parent::__construct($registry, Booking::class);
     }
 
+    public function findDaysOk(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.date, b.heure')
+            ->groupBy('b.date')
+            ->getQuery()
+            ->getScalarResult();
+    }
+
     //    /**
     //     * @return Booking[] Returns an array of Booking objects
     //     */

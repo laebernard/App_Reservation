@@ -11,7 +11,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use App\Form\UserType;
 
 
 class BookingType extends AbstractType
@@ -21,11 +26,26 @@ class BookingType extends AbstractType
         $builder
             ->add('date', DateType::class, [
                 'required' => true,
+                'widget' => 'single_text',
+                "attr" => [
+                    "class" => "form-control datepicker"
+                ],
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez saisir une heure valide'])
+                ]
             ])
+          
             ->add('heure', TimeType::class, [
                 'required' => true,
+                "attr" => [
+                    "class" => "form-control datepicker"
+                ],
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez saisir une heure valide'])
+                ]
             ])
-            ->add('serviceId', EntityType::class, [
+            ->add('service', EntityType::class, [
+                'label' => "Service",
                 'class' => Service::class,
                 'choice_label' => 'nom',
                 'query_builder' => function (EntityRepository $er) {
@@ -33,7 +53,13 @@ class BookingType extends AbstractType
                         ->orderBy('s.nom', 'ASC');
                 },
                 'required' => true,
-            ]);
+            ])
+            ->add('user', UserType::class, [
+                'label' => "Informations de l'utilisateur",
+                'required' => false 
+            ])
+         
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

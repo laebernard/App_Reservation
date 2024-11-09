@@ -47,24 +47,24 @@ class Booking
         return $this;
     }
 
-    public function getUserId(): ?user
+    public function getUser(): ?user
     {
         return $this->userId;
     }
 
-    public function setUserId(?user $userId): static
+    public function setUser(?user $userId): static
     {
         $this->userId = $userId;
 
         return $this;
     }
 
-    public function getServiceId(): ?Service
+    public function getService(): ?Service
     {
         return $this->serviceId;
     }
 
-    public function setServiceId(?Service $serviceId): static
+    public function setService(?Service $serviceId): static
     {
         $this->serviceId = $serviceId;
 

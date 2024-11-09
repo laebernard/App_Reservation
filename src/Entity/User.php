@@ -24,9 +24,6 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 8)]
-    private ?string $motPasse = null;
-
     /**
      * @var Collection<int, Booking>
      */
@@ -82,18 +79,6 @@ class User
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getMotPasse(): ?string
-    {
-        return $this->motPasse;
-    }
-
-    public function setMotPasse(string $motPasse): static
-    {
-        $this->motPasse = $motPasse;
 
         return $this;
     }
