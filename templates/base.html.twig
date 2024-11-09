@@ -19,7 +19,7 @@
             </a>
             <ul>
                 {% for service in services %}
-                    <li><a href="/{{service.nom}}">{{ service.nom }}</a></li>
+                    <li><a href="{{ path('show_service', { 'service': service.nom }) }}">{{ service.nom }}</a></li>
                 {% endfor %}
             </ul>
         </nav>

@@ -20,11 +20,15 @@ class ServiceController extends AbstractController
         ]);
     }
 
-    #[Route('/service', name: 'app_service')]
-    public function index(): Response
+    #[Route('/{service}', name: 'show_service')]
+    public function menuService(ServiceRepository $serviceRepository, string $service): Response
     {
-        return $this->render('service/index.html.twig', [
-            'controller_name' => 'ServiceController',
+        $serviceSelectionne = $serviceRepository->findOneBy(['nom' => $service]);
+        $templatePath = sprintf('service/%s.html.twig', $service);
+        $services = $serviceRepository->findAll();
+        return $this->render($templatePath, [
+            'services' => $services,
+            'service' => $serviceSelectionne
         ]);
     }
 }
