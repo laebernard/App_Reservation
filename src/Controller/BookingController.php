@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\User;
+use App\Entity\Service;
 use App\Entity\Booking;
 use App\Form\BookingType;
 use App\Repository\ServiceRepository;
@@ -12,7 +14,7 @@ use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
-use App\Entity\User;
+
 
 
 class BookingController extends AbstractController
@@ -26,9 +28,10 @@ class BookingController extends AbstractController
     }
 
     #[Route('/booking/create', name: 'create_booking')]
-    public function CreateBooking(ServiceRepository $serviceRepository,BookingRepository $bookingRepository, EntityManagerInterface $em, Request $request): Response
+    public function CreateBooking(EntityManagerInterface $em, Request $request): Response
     {
-        $services = $serviceRepository->findAll();
+        $services = $em->getRepository(Service::class)->findAll();
+        $bookingRepository = $em->getRepository(Booking::class);
         $controleDatesHeures = $bookingRepository->findDaysOk();
         $booking = new Booking();
         $form = $this->createForm(BookingType::class, $booking);
@@ -89,19 +92,62 @@ class BookingController extends AbstractController
     }
 
     #[Route('/booking/{id}/edit', name: 'edit_booking')]
-    public function edit(ServiceRepository $serviceRepository,BookingRepository $bookingRepository, EntityManagerInterface $em, int $id, Request $request): Response
+    public function edit(EntityManagerInterface $em, int $id, Request $request): Response
     {
-        $services = $serviceRepository->findAll();
+        $services = $em->getRepository(Service::class)->findAll();
+        $bookingRepository = $em->getRepository(Booking::class);
+        $controleDatesHeures = $bookingRepository->findDaysOk();
         $booking = $bookingRepository->find($id);
         
         $form = $this->createForm(BookingType::class, $booking);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($booking);
-            $em->flush();
+            $dateActuelle = new \DateTime('now');
+            $heureActuelle = $dateActuelle->format('H:i');
+ 
+            if($booking->getDate()->format('Y-m-d') < $dateActuelle->format('Y-m-d')){
+                $form->addError(new FormError("La date selectionnée est une date dans le passé."));
 
-            return $this->redirectToRoute('app_home');
+            }
+
+            $isDuplicate = false;
+    
+            foreach ($controleDatesHeures as $DateHeure) {
+                if (
+                    $DateHeure['date'] == $booking->getDate()->format('Y-m-d') && 
+                    $DateHeure['heure'] == $booking->getHeure()->format('H:i:s')
+                ) {
+                    $isDuplicate = true;
+                    break;
+                }
+            }
+
+            $userData = $booking->getUser();
+            $userRepository = $em->getRepository(User::class);
+            
+            $user = $userRepository->findOneBy(['email' => $userData->getEmail()]);
+
+            if (!$user) {
+                $user = new user();
+                $user->setNom($userData->getNom());
+                $user->setPrenom($userData->getPrenom());
+                $user->setEmail($userData->getEmail());
+                $em->persist($user);
+            }
+
+            $booking->setUser($user);
+
+            if ($isDuplicate) {
+                $form->addError(new FormError("Un rendez-vous est déjà prévu à cette date et heure."));
+            } else {
+                $em->persist($booking);
+                $em->flush();
+
+                return $this->redirectToRoute('app_home');
+
+            }
+
         }
 
         return $this->render('booking/edit.html.twig', [
@@ -112,10 +158,11 @@ class BookingController extends AbstractController
 
 
     #[Route('/booking/{id}/delete', name: 'delete_booking', requirements: ['id' => '\d+'])]
-    public function delete(ServiceRepository $repository, int $id, EntityManagerInterface $em): Response
+    public function delete(int $id, EntityManagerInterface $em): Response
     {
         $booking = $em->getRepository(Booking::class)->find($id);
-        $services = $repository->findAll();
+
+        $services = $em->getRepository(Service::class)->findAll();
 
         if ($booking) {
             $em->remove($booking);
