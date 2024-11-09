@@ -1,0 +1,82 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: #333333;
+    background-color: #FFF5F2;
+    margin: 0;
+}
+
+nav {
+    display: flex; /* Utilise flexbox pour aligner les éléments horizontalement */
+    align-items: center; /* Aligne verticalement les éléments au centre */
+    justify-content: space-between; /* Espace entre le logo et les éléments de navigation */
+    padding: 10px 20px; /* Espacement autour de la barre de navigation */
+    background-color: #af8d78; 
+    
+}
+
+nav img {
+    display: flex;
+    margin: 0 auto;
+    margin-right: 20px;
+}
+
+nav ul {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 auto;
+    color: #ffff;
+}
+
+nav ul li a{
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 auto;
+    color: #ffff;
+    text-decoration: none;
+}
+
+ul, li {
+    list-style-type: none;
+    padding: 15px;
+    color: #ffff;
+}
+
+.banner {
+    background-image: url('banner-image.jpg'); /* Image représentant les services */
+    background-size: cover;
+    background-position: center;
+    color: #af8d78;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.banner h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.banner p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: var(--color-background);
+    padding: 40px;
+    max-width: 500px;
+    margin: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+    background-color: var(--color-background);
+    padding: 40px;
+    max-width: 500px;
+    margin: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
