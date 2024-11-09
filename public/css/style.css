@@ -6,10 +6,10 @@ body {
 }
 
 nav {
-    display: flex; /* Utilise flexbox pour aligner les éléments horizontalement */
-    align-items: center; /* Aligne verticalement les éléments au centre */
-    justify-content: space-between; /* Espace entre le logo et les éléments de navigation */
-    padding: 10px 20px; /* Espacement autour de la barre de navigation */
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 10px 20px; 
     background-color: #af8d78; 
     
 }
@@ -40,16 +40,17 @@ nav ul li a{
 ul, li {
     list-style-type: none;
     padding: 15px;
-    color: #ffff;
+    color: #f20000;
 }
 
 .banner {
-    background-image: url('banner-image.jpg'); /* Image représentant les services */
+    background-color: #af8d78; 
     background-size: cover;
     background-position: center;
-    color: #af8d78;
+    color: #fefefe;
     text-align: center;
-    padding: 80px 20px;
+    padding: 50px 20px;
+    margin-bottom: 10%;
 }
 
 .banner h1 {
@@ -72,11 +73,68 @@ ul, li {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-container {
-    background-color: var(--color-background);
-    padding: 40px;
+.example-wrapper button {
+    border-radius: 10px;
+    background-color: #af8d78;
+    margin: 4px 2px;
+    color: white;
+    padding: 16px 32px;
+}
+
+.example-wrapper h1 {
+
     max-width: 500px;
-    margin: auto;
-    border-radius: 15px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+
+.form-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-top: 15px;
+}
+
+.form-container form-error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+
+.form-container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.form-container .user-section {
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
 }

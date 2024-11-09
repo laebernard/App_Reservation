@@ -43,7 +43,9 @@ class BookingController extends AbstractController
             $dateActuelle = new \DateTime('now');
             $heureActuelle = $dateActuelle->format('H:i');
  
-            if($booking->getDate()->format('Y-m-d') < $dateActuelle->format('Y-m-d')){
+
+            
+            if($booking->getDate()->format('Y-m-d') > $dateActuelle->format('Y-m-d')){
                 $form->addError(new FormError("La date selectionnée est une date dans le passé."));
 
             }
@@ -83,7 +85,11 @@ class BookingController extends AbstractController
                 $em->flush();
 
                 return $this->redirectToRoute('app_home');
+
+
+                
             }
+
         }
         return $this->render('booking/create.html.twig', [
             'form' => $form->createView(),
@@ -106,7 +112,7 @@ class BookingController extends AbstractController
             $dateActuelle = new \DateTime('now');
             $heureActuelle = $dateActuelle->format('H:i');
  
-            if($booking->getDate()->format('Y-m-d') < $dateActuelle->format('Y-m-d')){
+            if($booking->getDate()->format('Y-m-d') > $dateActuelle->format('Y-m-d')){
                 $form->addError(new FormError("La date selectionnée est une date dans le passé."));
 
             }
@@ -137,6 +143,7 @@ class BookingController extends AbstractController
             }
 
             $booking->setUser($user);
+            dump($isDuplicate);
 
             if ($isDuplicate) {
                 $form->addError(new FormError("Un rendez-vous est déjà prévu à cette date et heure."));
